@@ -9,16 +9,16 @@ var
     $PLAYER_CHAR: Player
 end // var
 fade 0  0 ms
-01F0: set_max_wanted_level_to 1
+01F0: set_max_wanted_level_to 6
 set_wb_check_to 0
 00C0: set_current_time 12 0
 04E4: unknown_refresh_game_renderer_at 468.7745 -1298.6228
 Camera.SetAtPos(468.7745, -1298.6228, 11.0712)
 $var = 0
 
-while $var < 100
+while $var < 2
     inc($var)
-    $PLAYER_CHAR = Player.Create(#NULL, 309.7745, -1363.6228, 10.0712)
+    $PLAYER_CHAR = Player.Create(#NULL, -9.7745, -1263.6228, 10.0712)
 end
 $PLAYER_ACTOR = Actor.EmulateFromPlayer($PLAYER_CHAR)
 set_weather 0
@@ -41,8 +41,21 @@ then
 end
 // put your start_new_script commands here
 
+055F: set_player $PLAYER_CHAR max_armour += 100
+set_garage $317 = create_garage_type 5 door -7.55 -1253.77 9.322 to 2.64 -1253.7 14.4 depth -7.55 -1261.2
+set_rotating_garage_door $317
+ 
 :InfLoop
 wait 250 ms
+if 
+    00DF: actor $PLAYER_ACTOR in_any_car
+then
+    10@ = Actor.CurrentCar($PLAYER_ACTOR)
+    //set_car 10@ health_to 2000
+    0224: set_car 10@ health_to 2000
+    //garage $684 respray_done
+end
+035E: set_player $PLAYER_CHAR armour_to 200
 jump @InfLoop
 
 
