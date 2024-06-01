@@ -9,12 +9,17 @@ var
     $PLAYER_CHAR: Player
 end // var
 fade 0  0 ms
-01F0: set_max_wanted_level_to 6
+01F0: set_max_wanted_level_to 1
 set_wb_check_to 0
 00C0: set_current_time 12 0
 04E4: unknown_refresh_game_renderer_at 468.7745 -1298.6228
 Camera.SetAtPos(468.7745, -1298.6228, 11.0712)
-$PLAYER_CHAR = Player.Create(#NULL, 468.7745, -1298.6228, 11.0712)
+$var = 0
+
+while $var < 100
+    inc($var)
+    $PLAYER_CHAR = Player.Create(#NULL, 309.7745, -1363.6228, 10.0712)
+end
 $PLAYER_ACTOR = Actor.EmulateFromPlayer($PLAYER_CHAR)
 set_weather 0
 wait 0 ms
@@ -24,7 +29,7 @@ if
 then
   0352: set_actor $PLAYER_ACTOR skin_to 'PLAYER'
   038B: load_requested_models
-  0353: refresh_actor $PLAYER_ACTOR 
+  0353: refresh_actor $PLAYER_ACTOR
 end
 fade 1 (out)  1000 ms
 if
