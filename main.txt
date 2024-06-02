@@ -9,7 +9,7 @@ var
     $PLAYER_CHAR: Player
 end // var
 fade 0  0 ms
-01F0: set_max_wanted_level_to 6
+01F0: set_max_wanted_level_to 0
 set_wb_check_to 0
 00C0: set_current_time 12 0
 04E4: unknown_refresh_game_renderer_at 568.7745 -1248.6228
@@ -18,7 +18,7 @@ $var = 0
 
 while $var < 1
     inc($var)
-    $PLAYER_CHAR = Player.Create(#NULL, 725.7745, -445.6228, 25.0712)
+    $PLAYER_CHAR = Player.Create(#NULL, 491.7745, -392.6228, 25.0712)
 end
 
 $PLAYER_ACTOR = Actor.EmulateFromPlayer($PLAYER_CHAR)
@@ -46,20 +46,66 @@ end
 //set_garage $317 = create_garage_type 5 door -7.55 -1253.77 9.322 to 2.64 -1253.7 14.4 depth -7.55 -1261.2
 //set_rotating_garage_door $317
                                       
+//
+//Model.Load(#SPARROW)
+//load_all_models_now 
+//Car.Create($338, #SPARROW, 716.7745, -439.6228, 25.0712)
 
-Model.Load(#SPARROW)
-load_all_models_now 
-Car.Create($338, #SPARROW, 716.7745, -439.6228, 25.0712)
+//load_special_character 1 'SPECIAL15'
+//load_all_models_now
+
+
+get_offset_from_char_in_world_coords 1@ 2@ 3@ from_actor $player_actor offset 2.0 0.0 0.0
+$var5 = 0
+//$var_cop = 1037
+while $var5 < 10
+    Actor.Create($1037, 4, #COP, 1@, 2@, 3@)
+    Actor.Angle($1037) = 225.0
+    set_char_personality $1037 ped_stats_to 30  
+    Actor.Health($1037) = 200
+    set_char_proofs $1037 immunities BP 1 FP 1 EP 1 CP 1 MP 1
+    clear_char_threat_search $1037
+    set_char_heed_threats $1037 heed_threats 1
+    //give_weapon_to_char $1037 weapon 5 ammo 9999
+    set_char_personality $1037 ped_stats_to 30
+    set_char_heed_threats $1037 heed_threats 1
+    set_char_only_damaged_by_player $1037 immune_to_nonplayer 1
+    //set_char_accuracy $1037 weapon_accuracy_to 100
+    set_char_stay_in_same_place $1037 maintain_position_when_attacked 0
+    set_char_running $1037 running 1
+    set_player_as_leader $1037 to_player $player_char
+    inc($var5)
+end
+
+
+
+//Actor.Health($1038) = 200
+//set_char_proofs $1038 immunities BP 1 FP 1 EP 1 CP 1 MP 1
+//clear_char_threat_search $1038
+//set_char_heed_threats $1038 heed_threats 1
+//give_weapon_to_char $1038 weapon 5@ ammo 9999
+//set_char_personality $1038 ped_stats_to 30
+//set_char_heed_threats $1038 heed_threats 1
+//set_char_only_damaged_by_player $1038 immune_to_nonplayer 1
+//set_char_accuracy $1038 weapon_accuracy_to 100
+//set_char_stay_in_same_place $1038 maintain_position_when_attacked 1
+//set_char_running $1038 running 1
+//set_player_as_leader $1038 to_player $player_char
+
+//create_cutscene_object $127 = create_cutscene_object #SPECIAL01
+//set_cutscene_anim $127 'SFRENDA'
+//start_cutscene 
                              
 wait 5000
 $var3 = 75.04
-while $var2 < 30
+$var4 = #COACH
+while $var2 < 3
     inc($var2)
-    Model.Load(#PREDATOR)
+    Model.Load($var4)
     load_all_models_now 
-    Car.Create($338, #PREDATOR, 784.7745, -462.6228, $var3)
+    Car.Create($338, $var4, 506.7745, -409.6228, $var3) 
     //inc($var3)// += 10
-    wait 750 ms
+    wait 1550 ms
 end
 
  
@@ -72,12 +118,35 @@ if
     00DF: actor $PLAYER_ACTOR in_any_car
 then
     10@ = Actor.CurrentCar($PLAYER_ACTOR)
-    //set_car 10@ health_to 2000
+//    jump @LOOP2
+//    set_car 10@ health_to 2000
     0224: set_car 10@ health_to 2000
     //garage $684 respray_done
+    if
+        is_char_on_any_bike $PLAYER_ACTOR
+    then
+        goto @LOOP2
+//    else 
+//        warp_char_into_car $PLAYER_ACTOR in_car 10@
+    end
 end
 035E: set_player $PLAYER_CHAR armour_to 200
 jump @InfLoop
+
+:LOOP2
+while true
+    wait 8000
+    0224: set_car 10@ health_to 2000
+    035E: set_player $PLAYER_CHAR armour_to 200
+    
+    if
+        00DF: actor $PLAYER_ACTOR in_any_car
+    then
+        jump @LOOP2
+    else 
+        warp_char_into_car $PLAYER_ACTOR in_car 10@
+    end
+end
 
 
 // put your scripts here
