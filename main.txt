@@ -12,14 +12,15 @@ fade 0  0 ms
 01F0: set_max_wanted_level_to 6
 set_wb_check_to 0
 00C0: set_current_time 12 0
-04E4: unknown_refresh_game_renderer_at 468.7745 -1298.6228
+04E4: unknown_refresh_game_renderer_at 568.7745 -1248.6228
 Camera.SetAtPos(468.7745, -1298.6228, 11.0712)
 $var = 0
 
-while $var < 2
+while $var < 1
     inc($var)
-    $PLAYER_CHAR = Player.Create(#NULL, -9.7745, -1263.6228, 10.0712)
+    $PLAYER_CHAR = Player.Create(#NULL, 725.7745, -445.6228, 25.0712)
 end
+
 $PLAYER_ACTOR = Actor.EmulateFromPlayer($PLAYER_CHAR)
 set_weather 0
 wait 0 ms
@@ -42,11 +43,31 @@ end
 // put your start_new_script commands here
 
 055F: set_player $PLAYER_CHAR max_armour += 100
-set_garage $317 = create_garage_type 5 door -7.55 -1253.77 9.322 to 2.64 -1253.7 14.4 depth -7.55 -1261.2
-set_rotating_garage_door $317
+//set_garage $317 = create_garage_type 5 door -7.55 -1253.77 9.322 to 2.64 -1253.7 14.4 depth -7.55 -1261.2
+//set_rotating_garage_door $317
+                                      
+
+Model.Load(#SPARROW)
+load_all_models_now 
+Car.Create($338, #SPARROW, 716.7745, -439.6228, 25.0712)
+                             
+wait 5000
+$var3 = 75.04
+while $var2 < 30
+    inc($var2)
+    Model.Load(#PREDATOR    )
+    load_all_models_now 
+    Car.Create($338, #PREDATOR, 784.7745, -462.6228, $var3)
+    //inc($var3)// += 10
+    wait 750 ms
+end
+
  
 :InfLoop
 wait 250 ms
+//create_car_generator $470 = init_car_generator #PREDATOR -1 -1 force_spawn 0 alarm 0 door_lock 0 min_delay 0 max_delay 100 at -34.7745 -1269.6228 15.0712 angle 104.6175
+//switch_car_generator $470 cars_to_generate_to 0
+
 if 
     00DF: actor $PLAYER_ACTOR in_any_car
 then
