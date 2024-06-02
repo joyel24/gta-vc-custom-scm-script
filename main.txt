@@ -55,7 +55,7 @@ wait 5000
 $var3 = 75.04
 while $var2 < 30
     inc($var2)
-    Model.Load(#PREDATOR    )
+    Model.Load(#PREDATOR)
     load_all_models_now 
     Car.Create($338, #PREDATOR, 784.7745, -462.6228, $var3)
     //inc($var3)// += 10
